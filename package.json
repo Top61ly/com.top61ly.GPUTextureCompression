@@ -1,0 +1,21 @@
+{
+  "name": "com.top61ly.gputexturecompression",
+  "version": "1.0.0",
+  "unity": "2021.3",
+  "displayName": "GPU Texture Compression",
+  "description": "This package contains block compression compute shader for unity runtime texture compression.",
+  "keywords": [
+    "graphics",
+    "performance",
+    "rendering",
+    "render",
+    "pipeline"
+  ],
+  "samples":[
+    {
+      "displayName": "BC1 Texture Compress",
+      "description": "Simple sample of how to compress rgb texture to bc1 texture and copy subresource.",
+      "path": "Samples~/BC1Compress"
+    }
+  ]
+}

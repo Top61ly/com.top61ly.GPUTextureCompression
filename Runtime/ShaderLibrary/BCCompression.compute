@@ -1,0 +1,49 @@
+#pragma kernel BC1Compress
+#pragma kernel BC3Compress
+#pragma kernel BC5Compress
+
+#include "./BlockCompressionHelper.hlsl"
+
+Texture2D inputTexture;
+SamplerState g_Linear_Clamp_Sampler;
+
+RWTexture2D<uint4> outputTexture;
+
+uint dstRegionSize;
+
+[numthreads(8, 8, 1)]
+void BC1Compress(uint3 id : SV_DispatchThreadID)
+{
+    if(any(id.xy >= dstRegionSize))
+        return;
+    
+    float3 block[16];
+    LoadTexelsRGB(inputTexture, g_Linear_Clamp_Sampler, oneOverTextureWidth, id.xy, block);
+
+    outputTexture[id.xy] = CompressBC1Block(block);
+}
+
+[numthreads(8, 8, 1)]
+void BC3Compress(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= dstRegionSize))
+        return;
+    
+    float3 blockRGB[16];
+    float blockA[16];
+    LoadTexelsRGBA(inputTexture, id.xy, blockRGB, blockA);
+
+    outputTexture[id.xy] = CompressBC3Block(blockRGB, blockA, 1.0f);
+}
+
+[numthreads(8, 8, 1)]
+void BC5Compress(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= dstRegionSize))
+        return;
+    
+    float blockU[16], blockV[16];
+    LoadTexelsUV(inputTexture, g_Linear_Clamp_Sampler, oneOverTextureWidth, id.xy, blockU, blockV);
+
+    outputTexture[id.xy] = CompressBC5Block(blockU, blockV);
+}
