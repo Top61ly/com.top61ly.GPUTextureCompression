@@ -11,7 +11,7 @@
     "render",
     "pipeline"
   ],
-  "samples":[
+  "samples": [
     {
       "displayName": "BC1 Texture Compress",
       "description": "Simple sample of how to compress rgb texture to bc1 texture and copy subresource.",

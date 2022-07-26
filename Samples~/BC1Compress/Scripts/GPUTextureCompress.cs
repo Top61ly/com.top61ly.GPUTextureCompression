@@ -41,7 +41,8 @@ public class GPUTextureCompress : MonoBehaviour
 
         if (m_Cmd == null)
         {
-            m_Cmd = CommandBufferPool.Get("GPU Texture Compress");
+            m_Cmd = new CommandBuffer();
+            m_Cmd.name = "GPU Texture Compress";
         }
 
         if (m_CompressComputeShader != null)
